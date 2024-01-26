@@ -6,13 +6,10 @@ import { cookies } from "next/headers";
 // @ts-ignore
 import { parse } from "cookie";
 
-// @ts-ignore
-// @ts-ignore
-// @ts-ignore
-// @ts-ignore
-// @ts-ignore
-export const Options = (req,res) =>{
+export const Options = (req: NextApiRequest, res: NextApiResponse) =>{
 
+    // @ts-ignore
+    // @ts-ignore
     return{
         providers: [CredentialsProvider({
             name: "Credentials",
