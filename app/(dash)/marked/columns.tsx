@@ -12,21 +12,22 @@ import Link from "next/link";
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 export type User = {
-    name: string
-    email: string
+    title: string
+    category: string
     team: string
-    memberCount: number
-    idea: boolean
-    phone: string
+    email: string
+    markdown: boolean
+
+
 }
 
 export const columns: ColumnDef<User>[] = [{
-    accessorKey: "name", header: ({column}) => {
+    accessorKey: "title", header: ({column}) => {
         return (<Button
                 variant="ghost"
                 onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
             >
-                Leader Name
+                Title
                 <ArrowUpDown className="ml-2 h-4 w-4"/>
             </Button>)
     },
@@ -41,10 +42,7 @@ export const columns: ColumnDef<User>[] = [{
                 <ArrowUpDown className="ml-2 h-4 w-4"/>
             </Button>)
     },
-},
-    {
-        accessorKey:"phone",header: "Phone No",
-    },{
+}, {
     accessorKey: "team", header: ({column}) => {
         return (<Button
                 variant="ghost"
@@ -55,28 +53,28 @@ export const columns: ColumnDef<User>[] = [{
             </Button>)
     },
 }, {
-    accessorKey: "memberCount", header: ({column}) => {
+    accessorKey: "category", header: ({column}) => {
         return (<Button
                 variant="ghost"
                 onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
             >
-                Member Count
+                Category
                 <ArrowUpDown className="ml-2 h-4 w-4"/>
             </Button>)
     },
 }, {
-    accessorKey: "idea", header: ({column}) => {
+    accessorKey: "markdown", header: ({column}) => {
         return (<Button
                 variant="ghost"
                 onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
             >
-                Idea
+                Marked
                 <ArrowUpDown className="ml-2 h-4 w-4"/>
             </Button>)
     },
 }, {
     id: "actions", header: "Edit", cell: ({row}) => {
-        const user = row.original
+        const idea = row.original
 
         return (<div className="text-black bg-white">
                 <DropdownMenu>
@@ -88,12 +86,12 @@ export const columns: ColumnDef<User>[] = [{
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="text-black bg-white">
                         <DropdownMenuItem
-                            onClick={() => navigator.clipboard.writeText(user.team)}
+                            onClick={() => navigator.clipboard.writeText(idea.team)}
                         >
                             Copy Team Name
                         </DropdownMenuItem>
                         <DropdownMenuSeparator/>
-                        <DropdownMenuItem><Link href={{pathname:"/view",query:{lead:user.email,team:user.team}}}>View full detail</Link></DropdownMenuItem>
+                        <DropdownMenuItem><Link href={{pathname:"/view",query:{lead:idea.email,team:idea.team}}}>View full detail</Link></DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>

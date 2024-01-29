@@ -22,8 +22,9 @@ import colors from "tailwindcss/colors";
 import { login } from "@/app/api/_regUser";
 import {useToast} from "@/components/ui/use-toast";
 import Link from "next/link";
+import {signIn} from "next-auth/react";
 
-const API = process.env.NEXT_PUBLIC_API_ROUTE
+const API = process.env.NEXT_PUBLIC_API_URL
 
 const formSchema = z.object({
     username: z.string().min(2, {
@@ -34,7 +35,6 @@ const formSchema = z.object({
     })
 })
 export default function Auth(){
-    console.log(API)
     const router=useRouter()
     const {toast}=useToast()
 
@@ -52,37 +52,32 @@ export default function Auth(){
         // alert(JSON.stringify(API))
 
         try{
-            const res= await axios.post(`${API}/auth/login`,values)
-            alert(JSON.stringify("hiii"))
-            // console.log(res)
-            toast({
-                title:"Something went wrong",
-                description:"Please try again"
+            await signIn('credentials', {
+                email: values.username,
+                password: values.password,
+                redirect: false,
+            }).then((res)=>{
+                if(res.ok){
+                   router.push('/teams')
+                }
+                else{
+                    toast({
+                        title: "Invalid Credentials",
+                        description: "Please check your credentials",
+
+                    })
+                }
             })
-            if (res.status===200){
-                alert(JSON.stringify("hiiii"))
-                router.push("/dashboard")
-            }
-            else if (res.status===400){
-                toast({
-                    title:"Invalid User Credentials",
-                    description:"THe entered username or password is incorrect"
-                })
-            }
-            else{
-                toast({
-                    title:"Something went wrong",
-                    description:"Please try again"
-                })
-            }
+
         }
-        catch(err){
-            console.log(err)
+        catch(e){
             toast({
-                title:"Something went wrong",
-                description:"Please try again"
+                title: "Invalid Credentials",
+                description: "Please check your credentials",
+
             })
         }
+
 
 
     }

@@ -3,6 +3,7 @@ import type {Metadata} from 'next'
 import {Inter} from 'next/font/google'
 import {Toaster} from "@/components/ui/toaster";
 import ReactQueryProvider from "@/components/QueryClientProvider";
+import Provider from "@/lib/authProvider";
 
 const inter = Inter({subsets: ['latin']})
 
@@ -16,10 +17,13 @@ export default function DashLayout({children,}: { children: any }) {
     <body>
 
     <main className="h-screen  text-black bg-white">
-          <ReactQueryProvider>
-              {children}
-              <Toaster/>
-          </ReactQueryProvider>
+        <Provider>
+            <ReactQueryProvider>
+                {children}
+                <Toaster/>
+            </ReactQueryProvider>
+        </Provider>
+
 
 
     </main>

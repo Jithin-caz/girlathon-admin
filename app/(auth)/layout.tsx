@@ -3,6 +3,7 @@ import '../globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { Toaster} from "@/components/ui/toaster";
+import Provider from "@/lib/authProvider";
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -20,8 +21,10 @@ export default function AuthLayout({
     <html lang="en">
       <body>
       <main className="h-screen flex flex-col justify-center items-center text-black">
-      {children}
-          <Toaster/>
+          <Provider>
+              {children}
+              <Toaster/>
+          </Provider>
       </main>
       </body>
     </html>
